@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const SingleProduct = () => {
+const SingleProduct = (props) => {
+    let cart = props.cart
+    let setCart = props.setCart
     let [product, setProduct] = useState([])
     let params = useParams()
+    console.log(cart);
     useEffect(() => {
         let fetchData = async () => {
             let response = await fetch(`https://dummyjson.com/products/${params.id}`)
@@ -12,9 +15,6 @@ const SingleProduct = () => {
         }
         fetchData()
     }, [])
-    let addToCart = () =>{
-        console.log(product);
-    }
     return (
         <div className="singleProduct mt-5">
             <div className="product d-flex align-items-center">
@@ -32,7 +32,7 @@ const SingleProduct = () => {
                     <p className="fs-5 text-danger">In stock : {product.stock}</p>
                     <hr />
                     <div className="options">
-                        <button className="mx-2 btn btn-warning" onClick={()=>addToCart(product.id)}>Add to Cart</button>
+                        <button className="mx-2 btn btn-warning" onClick={() => setCart([...cart,product])}>Add to Cart</button>
                         <button className="mx-2 btn btn-primary">Buy Now</button>
                     </div>
                 </div>
